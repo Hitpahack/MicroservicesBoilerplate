@@ -48,17 +48,44 @@ namespace OrderService.Controllers
             return CreatedAtAction(nameof(GetOrder),new { id = createOrder.Id },createOrder);
         }
 
-        // PUT api/<OrderController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        //PUT api/<OrderController>/5
+        [HttpPut("{id}")]
+        public IActionResult UpdateOrder(int id, [FromBody] OrderDto orderDto)
+        {
+            if(id <=0 )
+            {
+                return BadRequest("Invalid Order ID.");
+            }
+            if (orderDto == null)
+            {
+                return BadRequest("Order data is required.");
+            }
+            var updateOrder = _orderService.UpdateOrder(id, orderDto);
+            if(updateOrder == null)
+            {
+                return NotFound($"Order with ID {id} not found.");
+            }
+            return Ok(updateOrder);
 
-        // DELETE api/<OrderController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-            
-        //}
+        }
+
+        //DELETE api/<OrderController>/5
+        [HttpDelete("{id}")]
+        public ActionResult DeleteOrder(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid Order ID.");
+            }
+
+            var deletedOrder = _orderService.DeleteOrder(id);
+
+            if (deletedOrder == null)
+            {
+                return NotFound($"Order with ID {id} not found.");
+            }
+
+            return NoContent(); // 204 No Content (successful deletion)
+        }
     }
 }

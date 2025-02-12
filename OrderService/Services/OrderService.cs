@@ -38,5 +38,34 @@ namespace OrderService.Services
             _dbContext.SaveChanges();
             return newOrder;
         }
+
+        public Order UpdateOrder(int id, OrderDto orderDto)
+        {
+            var existingOrder = GetOrderById(id);
+            if (existingOrder == null)
+            {
+                return null;
+            }
+            existingOrder.OrderDate = DateTime.UtcNow;
+            existingOrder.CustomerName = orderDto.CustomerName;
+            existingOrder.TotalAmount = orderDto.TotalAmount;
+            
+            _dbContext.Orders.Update(existingOrder);
+            _dbContext.SaveChanges();
+            return existingOrder;
+        }
+
+        public Order DeleteOrder(int id)
+        {
+            var existingOrder = GetOrderById(id);
+            if (existingOrder == null)
+            {
+                return null;
+            }
+
+            _dbContext.Orders.Remove(existingOrder);
+            _dbContext.SaveChanges();
+            return existingOrder;
+        }
     }
 }
