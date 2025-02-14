@@ -1,126 +1,125 @@
-Microservices Architecture with .NET 8, C#, and SQL Server
+# Microservices Architecture with .NET 8, C#, and MongoDB
 
-📌 Project Overview
+![Tech Stack](https://your-image-link.com/tech-stack.png)
 
-This project demonstrates a microservices-based architecture using ASP.NET Core Web API with .NET 8. The system consists of multiple microservices, including OrderService and PaymentService, which communicate with each other using REST APIs and an event-driven approach.
+## 📌 Project Overview
+This project demonstrates a microservices architecture using .NET 8, C#, and MongoDB. It includes multiple independent services that communicate via REST APIs and RabbitMQ for event-driven messaging.
 
-🏗 Tech Stack
+## 🚀 Features
+- ✅ **Microservices-based architecture**
+- ✅ **REST API communication between services**
+- ✅ **Event-driven communication using RabbitMQ**
+- ✅ **MongoDB for NoSQL data storage**
+- ✅ **Entity Framework Core for SQL-based microservices**
+- ✅ **Docker support for containerized deployment**
+- ✅ **Swagger API documentation**
+- ✅ **Authentication & Authorization using JWT**
 
-Backend: .NET 8, C#
+## 🛠️ Tech Stack
+![Tech Stack](https://your-image-link.com/tech-stack-overview.png)
+- **Backend:** .NET 8, C#
+- **Database:** MongoDB, SQL Server
+- **API Gateway:** Ocelot
+- **Message Broker:** RabbitMQ
+- **Authentication:** JWT
+- **Containerization:** Docker
+- **Monitoring:** Prometheus & Grafana
 
-Database: SQL Server, MongoDB (optional)
+## 🏗️ Microservices Architecture
+📂 **OrderService** - Manages orders and integrates with PaymentService.
+📂 **PaymentService** - Handles payment processing and communicates with OrderService.
+📂 **InventoryService** - Manages stock availability.
+📂 **Gateway (Ocelot)** - API Gateway to route requests.
 
-API Communication: REST API, Refit
+### 📁 Folder Structure
+```
+📂 OrderService
+ ├── 📂 Controllers
+ ├── 📂 Models
+ ├── 📂 Services
+ ├── 📂 Data
+ ├── 📂 DTOs
+ ├── 📂 Middleware
+ ├── 📂 Config
+ ├── 📄 Program.cs
+ ├── 📄 appsettings.json
+```
 
-ORM: Entity Framework Core
+## 🔧 Setup & Installation
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/your-repo/microservices-dotnet.git
+cd microservices-dotnet
+```
 
-Dependency Injection: Built-in .NET DI
-
-Testing & Documentation: Swagger (Swashbuckle.AspNetCore)
-
-Message Broker (Optional): RabbitMQ
-
-📂 Project Structure
-
-📂 MicroservicesProject
-  ├── 📂 OrderService
-  │   ├── 📂 Controllers
-  │   ├── 📂 Models
-  │   ├── 📂 Services
-  │   ├── 📂 Data (Entity Framework Core)
-  │   ├── 📂 DTOs (Data Transfer Objects)
-  │   ├── 📄 Program.cs
-  │   ├── 📄 appsettings.json
-  ├── 📂 PaymentService
-  │   ├── 📂 Controllers
-  │   ├── 📂 Models
-  │   ├── 📂 Services
-  │   ├── 📂 Data
-  │   ├── 📂 DTOs
-  │   ├── 📄 Program.cs
-  │   ├── 📄 appsettings.json
-
-🚀 Setup & Installation
-
-Prerequisites
-
-Install .NET 8 SDK
-
-Install SQL Server
-
-Install MongoDB (if required)
-
-Install Visual Studio 2022 (or any compatible IDE)
-
-1️⃣ Clone the Repository
-
-git clone https://github.com/yourusername/MicroservicesProject.git
-cd MicroservicesProject
-
-2️⃣ Setup Database Connection
-
-Modify the appsettings.json in each microservice to configure the database connection.
-
-Example for OrderService:
-
-"ConnectionStrings": {
-  "OrderDb": "Server=localhost;Database=OrderDb;Trusted_Connection=True;"
-}
-
-Example for PaymentService:
-
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=PaymentDB;User Id=sa;Password=yourpassword;TrustServerCertificate=True;"
-}
-
-3️⃣ Install Required Packages
-
-Run the following command in each microservice directory:
-
+### 2️⃣ Install Dependencies
+```bash
 dotnet restore
+```
 
-4️⃣ Run Migrations & Update Database
+### 3️⃣ Setup MongoDB & SQL Server
+- Install [MongoDB](https://www.mongodb.com/try/download/community)
+- Configure SQL Server connection in `appsettings.json`
 
+### 4️⃣ Run Migrations (For SQL Services)
+```bash
 dotnet ef migrations add InitialCreate
 dotnet ef database update
+```
 
-5️⃣ Start Microservices
-
-Run each microservice separately:
-
+### 5️⃣ Run the Microservices
+```bash
 dotnet run --project OrderService
+```
+Repeat the above command for all microservices.
 
-dotnet run --project PaymentService
+### 6️⃣ Docker Support (Optional)
+To run all services using Docker Compose:
+```bash
+docker-compose up --build
+```
 
-🛠 API Endpoints
+## 📌 API Endpoints
+### 📍 OrderService
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/api/orders` | Fetch all orders |
+| GET | `/api/orders/{id}` | Fetch a specific order |
+| POST | `/api/orders` | Create a new order |
 
-OrderService
+### 📍 PaymentService
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/api/payment/process` | Process payment |
 
-GET /api/orders → Fetch all orders
+## 🛠️ Communication Between Microservices
+### 1️⃣ REST API Communication
+- OrderService calls PaymentService via HTTP.
+- Implemented using Refit:
+```csharp
+[Post("/api/payment/process")]
+Task<PaymentResponse> ProcessPayment([Body] PaymentRequest request);
+```
 
-GET /api/orders/{id} → Fetch a specific order
+### 2️⃣ Event-Driven Communication (RabbitMQ)
+- OrderService publishes events when an order is created.
+- PaymentService listens to order events and processes payments.
 
-POST /api/orders → Create a new order
+## 🔥 Monitoring & Logging
+- **Prometheus** for metrics collection.
+- **Grafana** for visualization.
+- **Serilog** for structured logging.
 
-PaymentService
+## 📜 License
+This project is licensed under the MIT License.
 
-POST /api/payment/process → Process a payment
+## ✨ Contributing
+Contributions are welcome! Feel free to fork, open issues, or submit PRs.
 
-🔗 Communication Between Microservices
+## 📞 Contact
+For any questions, reach out at [your-email@example.com](mailto:your-email@example.com).
 
-Synchronous: REST API calls using Refit
+---
 
-Asynchronous (Optional): Event-driven communication using RabbitMQ
-
-🔍 Testing
-
-You can test the API endpoints using Postman or Swagger.
-
-Swagger URL: https://localhost:5001/swagger/index.html
-
-📜 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-👨‍💻 Developed by [Your Name] | 📧 Contact: your.email@example.com
+### 🎉 Happy Coding! 🚀
 
