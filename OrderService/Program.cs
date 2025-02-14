@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient<IPaymentClient, PaymentClient>();
 builder.Services.AddScoped<IOrderService, OrderService.Services.OrderService>();
 
 var app = builder.Build();
