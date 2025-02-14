@@ -1,7 +1,5 @@
 # Microservices Architecture with .NET 8, C#, and MongoDB
 
-![Tech Stack](https://your-image-link.com/tech-stack.png)
-
 ## 📌 Project Overview
 This project demonstrates a microservices architecture using .NET 8, C#, and MongoDB. It includes multiple independent services that communicate via REST APIs and RabbitMQ for event-driven messaging.
 
