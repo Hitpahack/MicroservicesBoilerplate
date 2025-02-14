@@ -7,10 +7,12 @@ namespace OrderService.Services
     public class OrderService : IOrderService
     {
         private readonly OrderDbContext _dbContext;
+        private readonly IPaymentClient _paymentClient; 
 
-        public OrderService(OrderDbContext dbContext)
+        public OrderService(OrderDbContext dbContext, IPaymentClient paymentClient)
         {
             _dbContext = dbContext;
+            _paymentClient = paymentClient;
         }
 
         //private readonly List<Order> _orders = new List<Order>(); // Temporary in-memory storage
@@ -25,17 +27,30 @@ namespace OrderService.Services
             return _dbContext.Orders.FirstOrDefault(x => x.Id == id);
         }
 
-        public Order CreateOrder(OrderDto orderDto)
+        public async Task<Order> CreateOrder(OrderDto orderDto)
         {
             var newOrder = new Order
             {
                 CustomerName = orderDto.CustomerName,
                 TotalAmount = orderDto.TotalAmount,
-                OrderDate = DateTime.UtcNow
+                OrderDate = DateTime.UtcNow,
+                Status ="Pending"
             };
 
             _dbContext.Orders.Add(newOrder);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
+
+            var paymentRequest = new PaymentRequest
+            {
+                OrderId = newOrder.Id,
+                Amount = newOrder.TotalAmount
+            };
+
+            PaymentResponse paymentResponse = await _paymentClient.ProcessPayment(paymentRequest);
+            newOrder.Status = paymentResponse.Status;
+            _dbContext.Orders.Update(newOrder);
+            await _dbContext.SaveChangesAsync();
+
             return newOrder;
         }
 

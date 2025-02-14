@@ -39,13 +39,13 @@ namespace OrderService.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] OrderDto orderDto)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderDto orderDto)
         {
             if (orderDto == null) {
                 return BadRequest("Invalid Order Data");
             }
-            var createOrder = _orderService.CreateOrder(orderDto);
-            return CreatedAtAction(nameof(GetOrder),new { id = createOrder.Id },createOrder);
+            var order = await _orderService.CreateOrder(orderDto);
+            return Ok(order); 
         }
 
         //PUT api/<OrderController>/5

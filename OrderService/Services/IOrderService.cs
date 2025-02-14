@@ -7,7 +7,7 @@ namespace OrderService.Services
     {
         List<Order> GetAllOrders();
         Order GetOrderById(int id);
-        Order CreateOrder(OrderDto orderDto);
+        Task<Order> CreateOrder(OrderDto orderDto);
         Order UpdateOrder(int id, OrderDto orderDto);
         Order DeleteOrder(int id);
 
