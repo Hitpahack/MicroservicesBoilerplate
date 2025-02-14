@@ -14,7 +14,7 @@ This project demonstrates a microservices architecture using .NET 8, C#, and Mon
 - ✅ **Authentication & Authorization using JWT**
 
 ## 🛠️ Tech Stack
-![Tech Stack](https://your-image-link.com/tech-stack-overview.png)
+
 - **Backend:** .NET 8, C#
 - **Database:** MongoDB, SQL Server
 - **API Gateway:** Ocelot
